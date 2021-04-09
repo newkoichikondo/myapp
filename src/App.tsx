@@ -17,7 +17,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import {
   makeStyles,
-  useTheme,
   Theme,
   createStyles,
   ThemeProvider,
@@ -26,10 +25,10 @@ import ForumIcon from "@material-ui/icons/Forum";
 import MenuBookIcon from "@material-ui/icons/MenuBook";
 import LiveHelpIcon from "@material-ui/icons/LiveHelp";
 import SearchIcon from "@material-ui/icons/Search";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 
 import "./App.css";
 import {
-  Box,
   Card,
   CardActionArea,
   CardContent,
@@ -62,6 +61,12 @@ const useStyles = makeStyles((theme: Theme) =>
         flexShrink: 0,
       },
     },
+    drawerPhrase: {
+      [theme.breakpoints.up("sm")]: {
+        width: drawerWidth,
+        flexShrink: 0,
+      },
+    },
     appBar: {
       [theme.breakpoints.up("sm")]: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -85,6 +90,12 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
+    },
+    subDrawerCloseIcon: {
+      display: "flex",
+      justifyContent: "flex-start",
+      float: "left",
+      marginLeft: "3px",
     },
     content: {
       flexGrow: 1,
@@ -141,9 +152,8 @@ function a11yProps(index: any) {
 function App(props: Props) {
   const { window } = props;
   const classes = useStyles();
-  const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const category = [
+  const categories = [
     "あいさつ",
     "初対面",
     "食べる時",
@@ -152,6 +162,21 @@ function App(props: Props) {
     "買い物",
     "恋愛",
     "好きと嫌い",
+  ];
+  const phrases = [
+    "またね",
+    "お世話になりました",
+    "いただきます！",
+    "お先に",
+    "いってきます",
+    "久しぶりだね",
+    "遅れてごめんなさい",
+    "じゃあね",
+    "どうぞ入ってください",
+    "お会いできてよかったです",
+    "元気でね",
+    "良い一日を",
+    "仕事頑張って",
   ];
 
   const [value, setValue] = React.useState(0);
@@ -162,6 +187,12 @@ function App(props: Props) {
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
+  };
+
+  const [subDrawerOpen, setSubDrawerOpen] = React.useState(false);
+
+  const handleSubDrawerToggle = () => {
+    setSubDrawerOpen(!mobileOpen);
   };
 
   const drawer = (
@@ -178,8 +209,8 @@ function App(props: Props) {
 
       <Divider />
       <List>
-        {category.map((text, index) => (
-          <ListItem button key={text} divider>
+        {categories.map((text, index) => (
+          <ListItem button key={text} divider onClick={handleSubDrawerToggle}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
             </ListItemIcon>
@@ -187,6 +218,46 @@ function App(props: Props) {
           </ListItem>
         ))}
       </List>
+      <Drawer
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={subDrawerOpen}
+        classes={{
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div>
+          <Toolbar
+            component="div"
+            style={{ display: "block", textAlign: "center", padding: "5px 0" }}
+          >
+            <IconButton
+              className={classes.subDrawerCloseIcon}
+              onClick={() => {
+                setSubDrawerOpen(false);
+              }}
+            >
+              <ChevronLeftIcon />
+            </IconButton>
+            <div style={{ width: `calc(100% - 48px)` }}>
+              <Typography variant="h6">フレーズ</Typography>
+              <Typography variant="caption">近日追加予定</Typography>
+            </div>
+          </Toolbar>
+        </div>
+        <Divider />
+        <List>
+          {phrases.map((text, index) => (
+            <ListItem button key={text} divider onClick={handleSubDrawerToggle}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
     </div>
   );
 
@@ -214,13 +285,13 @@ function App(props: Props) {
               </Typography>
             </Toolbar>
           </AppBar>
-          <nav className={classes.drawer} aria-label="mailbox folders">
+          <nav className={classes.drawer} aria-label="category folders">
             {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
             <Hidden smUp implementation="css">
               <Drawer
                 container={container}
                 variant="temporary"
-                anchor={theme.direction === "rtl" ? "right" : "left"}
+                anchor={"left"}
                 open={mobileOpen}
                 onClose={handleDrawerToggle}
                 classes={{
