@@ -195,6 +195,22 @@ function App(props: Props) {
     setSubDrawerOpen(!mobileOpen);
   };
 
+  const onClickVoice = () => {
+    var audio = document.getElementById("voiceTitle");
+
+    if (!(audio instanceof HTMLMediaElement)) {
+      throw new Error("#audio is not an HTMLMediaElement");
+    }
+
+    audio.volume = 0.2;
+
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+    }
+  };
+
   const drawer = (
     <div>
       <div className={classes.toolbar}>
@@ -320,7 +336,8 @@ function App(props: Props) {
             <div className={classes.toolbar} />
             <Card className={classes.cardHolder} variant="outlined">
               <Card className={classes.cardRoot}>
-                <CardActionArea>
+                <audio id="voiceTitle" src="./audio/4.mp3"></audio>
+                <CardActionArea onClick={onClickVoice}>
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h5" component="p">
                       嫌な予感がする
