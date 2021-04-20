@@ -1,4 +1,5 @@
 import React from "react";
+import * as ReactDOM from "react-dom";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
@@ -13,6 +14,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import MailIcon from "@material-ui/icons/Mail";
 import MenuIcon from "@material-ui/icons/Menu";
 import VolumeUpSharpIcon from "@material-ui/icons/VolumeUpSharp";
+import PauseIcon from "@material-ui/icons/Pause";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import {
@@ -196,7 +198,10 @@ function App(props: Props) {
   };
 
   const onClickVoice = () => {
+    var card = document.getElementById("card");
     var audio = document.getElementById("voiceTitle");
+    const playIcon = <VolumeUpSharpIcon fontSize="small" color="disabled" />;
+    const puaseIcon = <PauseIcon fontSize="small" color="disabled" />;
 
     if (!(audio instanceof HTMLMediaElement)) {
       throw new Error("#audio is not an HTMLMediaElement");
@@ -204,11 +209,17 @@ function App(props: Props) {
 
     audio.volume = 0.2;
 
-    if (audio.paused) {
-      audio.play();
-    } else {
+    if (!audio.paused) {
+      ReactDOM.render(playIcon, document.getElementById("isVoicePlay"));
       audio.pause();
+    } else {
+      ReactDOM.render(puaseIcon, document.getElementById("isVoicePlay"));
+      audio.play();
     }
+
+    audio.addEventListener("ended", () => {
+      ReactDOM.render(playIcon, document.getElementById("isVoicePlay"));
+    });
   };
 
   const drawer = (
@@ -335,8 +346,8 @@ function App(props: Props) {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Card className={classes.cardHolder} variant="outlined">
-              <Card className={classes.cardRoot}>
-                <audio id="voiceTitle" src="./audio/4.mp3"></audio>
+              <Card id="card" className={classes.cardRoot}>
+                <audio id="voiceTitle" src="./audio/1.mp3"></audio>
                 <CardActionArea onClick={onClickVoice}>
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h5" component="p">
@@ -345,7 +356,7 @@ function App(props: Props) {
                     <Typography color="textSecondary" gutterBottom>
                       I have a bad feeling about this.
                     </Typography>
-                    <IconButton className={classes.cardIcon}>
+                    <IconButton id="isVoicePlay" className={classes.cardIcon}>
                       <VolumeUpSharpIcon fontSize="small" color="disabled" />
                     </IconButton>
                   </CardContent>
