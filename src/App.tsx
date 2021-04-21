@@ -198,7 +198,10 @@ function App(props: Props) {
   };
 
   const onClickVoice = () => {
-    var card = document.getElementById("card");
+    document.addEventListener('click',function(e){
+      var t: any =e.target;
+        console.log(t.previousSibling);
+    });
     var audio = document.getElementById("voiceTitle");
     const playIcon = <VolumeUpSharpIcon fontSize="small" color="disabled" />;
     const puaseIcon = <PauseIcon fontSize="small" color="disabled" />;
@@ -346,7 +349,7 @@ function App(props: Props) {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Card className={classes.cardHolder} variant="outlined">
-              <Card id="card" className={classes.cardRoot}>
+              <Card className={classes.cardRoot}>
                 <audio id="voiceTitle" src="./audio/1.mp3"></audio>
                 <CardActionArea onClick={onClickVoice}>
                   <CardContent className={classes.cardContent}>
@@ -364,7 +367,8 @@ function App(props: Props) {
               </Card>
               <Divider variant="middle" style={{ marginBottom: "24px" }} />
               <Card className={classes.cardRootLeft}>
-                <CardActionArea>
+              <audio id="voiceTitle" src="./audio/1.mp3"></audio>
+                <CardActionArea onClick={onClickVoice}>
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h6" component="p">
                       なぁ、どうした？なんだか不安そうだけど。
@@ -379,7 +383,8 @@ function App(props: Props) {
                 </CardActionArea>
               </Card>
               <Card className={classes.cardRootRight}>
-                <CardActionArea>
+              <audio id="voiceTitle" src="./audio/1.mp3"></audio>
+                <CardActionArea onClick={onClickVoice}>
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h6" component="p">
                       分からないけど、ただ嫌な予感がする
