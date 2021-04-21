@@ -197,12 +197,9 @@ function App(props: Props) {
     setSubDrawerOpen(!mobileOpen);
   };
 
-  const onClickVoice = () => {
-    document.addEventListener('click',function(e){
-      var t: any =e.target;
-        console.log(t.previousSibling);
-    });
-    var audio = document.getElementById("voiceTitle");
+  const onClickVoice = (e: React.MouseEvent<HTMLElement>) => {
+    let audioUrl = e.currentTarget.dataset.url;
+    var audio = new Audio(audioUrl)
     const playIcon = <VolumeUpSharpIcon fontSize="small" color="disabled" />;
     const puaseIcon = <PauseIcon fontSize="small" color="disabled" />;
 
@@ -210,7 +207,7 @@ function App(props: Props) {
       throw new Error("#audio is not an HTMLMediaElement");
     }
 
-    audio.volume = 0.2;
+    audio.volume = 0.5;
 
     if (!audio.paused) {
       ReactDOM.render(playIcon, document.getElementById("isVoicePlay"));
@@ -351,7 +348,7 @@ function App(props: Props) {
             <Card className={classes.cardHolder} variant="outlined">
               <Card className={classes.cardRoot}>
                 <audio id="voiceTitle" src="./audio/1.mp3"></audio>
-                <CardActionArea onClick={onClickVoice}>
+                <CardActionArea onClick={onClickVoice} data-url="./audio/1.mp3">
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h5" component="p">
                       嫌な予感がする
