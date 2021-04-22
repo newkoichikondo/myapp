@@ -57,8 +57,8 @@ const useStyles = makeStyles((theme: Theme) =>
     rootMain: {
       [theme.breakpoints.down("sm")]: {
         padding: 0,
+      },
     },
-},
     root: {
       display: "flex",
     },
@@ -108,10 +108,10 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
       [theme.breakpoints.down("sm")]: {
-        padding: '12px 12px 84px',
+        padding: "12px 12px 84px",
+      },
     },
-
-    },
+    cardAudio: {},
     cardHolder: {
       padding: "5%",
       backgroundColor: grey[200],
@@ -139,7 +139,7 @@ const useStyles = makeStyles((theme: Theme) =>
       right: "3px",
       bottom: "3px",
       [theme.breakpoints.down("sm")]: {
-        padding: '6px',
+        padding: "6px",
         right: 0,
         bottom: 0,
       },
@@ -211,10 +211,13 @@ function App(props: Props) {
     setSubDrawerOpen(true);
   };
 
+  const onLoadAction = () => {
+    let audio = new Audio();
+    audio.id = "cardAudio";
+  };
+
   const onClickVoice = (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.classList.add("playing");
-    let audioUrl = e.currentTarget.dataset.url;
-    var audio = new Audio(audioUrl)
+    let audio = e.currentTarget.getElementsByClassName(classes.cardAudio)[0];
     const playIcon = <VolumeUpSharpIcon fontSize="small" color="disabled" />;
     const puaseIcon = <PauseIcon fontSize="small" color="disabled" />;
 
@@ -222,18 +225,29 @@ function App(props: Props) {
       throw new Error("#audio is not an HTMLMediaElement");
     }
 
-    audio.volume = 0.5;
+    audio.volume = 0.2;
 
     if (!audio.paused) {
-      ReactDOM.render(playIcon, document.getElementById("isVoicePlay"));
+      ReactDOM.render(
+        playIcon,
+        e.currentTarget.getElementsByClassName(classes.cardIcon)[0]
+      );
       audio.pause();
     } else {
-      ReactDOM.render(puaseIcon, document.getElementById("isVoicePlay"));
+      ReactDOM.render(
+        puaseIcon,
+        e.currentTarget.getElementsByClassName(classes.cardIcon)[0]
+      );
       audio.play();
     }
 
-    audio.addEventListener("ended", () => {
-      ReactDOM.render(playIcon, document.getElementById("isVoicePlay"));
+    audio.addEventListener("ended", (e) => {
+      let audio = e.currentTarget as HTMLElement;
+      let card = audio.parentNode as HTMLElement;
+      ReactDOM.render(
+        playIcon,
+        card.getElementsByClassName(classes.cardIcon)[0]
+      );
     });
   };
 
@@ -360,9 +374,17 @@ function App(props: Props) {
           </nav>
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            <Card className={classes.cardHolder} variant="outlined">
+            <Card
+              className={classes.cardHolder}
+              variant="outlined"
+              onLoad={onLoadAction}
+            >
               <Card className={classes.cardRoot}>
                 <CardActionArea onClick={onClickVoice} data-url="./audio/1.mp3">
+                  <audio
+                    className={classes.cardAudio}
+                    src="./audio/1.mp3"
+                  ></audio>
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h5" component="p">
                       嫌な予感がする
@@ -378,7 +400,13 @@ function App(props: Props) {
               </Card>
               <Divider variant="middle" style={{ marginBottom: "24px" }} />
               <Card className={classes.cardRootLeft}>
-              <CardActionArea onClick={onClickVoice} data-url="./audio/2.mp3">
+                <audio id="cardAudio" src="./audio/2.mp3"></audio>
+                <CardActionArea onClick={onClickVoice} data-url="./audio/2.mp3">
+                  <audio
+                    className={classes.cardAudio}
+                    src="./audio/2.mp3"
+                  ></audio>
+
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h6" component="p">
                       なぁ、どうした？なんだか不安そうだけど。
@@ -393,7 +421,12 @@ function App(props: Props) {
                 </CardActionArea>
               </Card>
               <Card className={classes.cardRootRight}>
-              <CardActionArea onClick={onClickVoice} data-url="./audio/3.mp3">
+                <CardActionArea onClick={onClickVoice} data-url="./audio/3.mp3">
+                  <audio
+                    className={classes.cardAudio}
+                    src="./audio/3.mp3"
+                  ></audio>
+
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h6" component="p">
                       分からないけど、ただ嫌な予感がする
