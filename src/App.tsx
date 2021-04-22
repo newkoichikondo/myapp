@@ -54,6 +54,11 @@ const themeColor = createMuiTheme({
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
+    rootMain: {
+      [theme.breakpoints.down("sm")]: {
+        padding: 0,
+    },
+},
     root: {
       display: "flex",
     },
@@ -102,6 +107,10 @@ const useStyles = makeStyles((theme: Theme) =>
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
+      [theme.breakpoints.down("sm")]: {
+        padding: '12px 12px 84px',
+    },
+
     },
     cardHolder: {
       padding: "5%",
@@ -112,12 +121,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: "24px",
     },
     cardRootLeft: {
-      minWidth: 240,
+      minWidth: 220,
       marginBottom: "24px",
       marginRight: "15%",
     },
     cardRootRight: {
-      minWidth: 240,
+      minWidth: 220,
       marginBottom: "24px",
       marginLeft: "15%",
     },
@@ -129,6 +138,11 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       right: "3px",
       bottom: "3px",
+      [theme.breakpoints.down("sm")]: {
+        padding: '6px',
+        right: 0,
+        bottom: 0,
+      },
     },
     footerRoot: {
       flexGrow: 1,
@@ -194,10 +208,11 @@ function App(props: Props) {
   const [subDrawerOpen, setSubDrawerOpen] = React.useState(false);
 
   const handleSubDrawerToggle = () => {
-    setSubDrawerOpen(!mobileOpen);
+    setSubDrawerOpen(true);
   };
 
   const onClickVoice = (e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.classList.add("playing");
     let audioUrl = e.currentTarget.dataset.url;
     var audio = new Audio(audioUrl)
     const playIcon = <VolumeUpSharpIcon fontSize="small" color="disabled" />;
@@ -293,7 +308,7 @@ function App(props: Props) {
 
   return (
     <ThemeProvider theme={themeColor}>
-      <Container maxWidth="md">
+      <Container maxWidth="md" className={classes.rootMain}>
         <div className={classes.root}>
           <CssBaseline />
           <AppBar position="fixed" className={classes.appBar}>
@@ -347,7 +362,6 @@ function App(props: Props) {
             <div className={classes.toolbar} />
             <Card className={classes.cardHolder} variant="outlined">
               <Card className={classes.cardRoot}>
-                <audio id="voiceTitle" src="./audio/1.mp3"></audio>
                 <CardActionArea onClick={onClickVoice} data-url="./audio/1.mp3">
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h5" component="p">
@@ -364,8 +378,7 @@ function App(props: Props) {
               </Card>
               <Divider variant="middle" style={{ marginBottom: "24px" }} />
               <Card className={classes.cardRootLeft}>
-              <audio id="voiceTitle" src="./audio/1.mp3"></audio>
-                <CardActionArea onClick={onClickVoice}>
+              <CardActionArea onClick={onClickVoice} data-url="./audio/2.mp3">
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h6" component="p">
                       なぁ、どうした？なんだか不安そうだけど。
@@ -380,8 +393,7 @@ function App(props: Props) {
                 </CardActionArea>
               </Card>
               <Card className={classes.cardRootRight}>
-              <audio id="voiceTitle" src="./audio/1.mp3"></audio>
-                <CardActionArea onClick={onClickVoice}>
+              <CardActionArea onClick={onClickVoice} data-url="./audio/3.mp3">
                   <CardContent className={classes.cardContent}>
                     <Typography variant="h6" component="p">
                       分からないけど、ただ嫌な予感がする
