@@ -1,0 +1,71 @@
+[
+  {
+    "category": 1,
+    "id": 1,
+    "level": 1,
+    "title": {
+      "jp": "またね",
+      "en": "Catch you later.",
+      "audio": "./audio/1.mp3"
+    },
+    "sub": [
+      {
+        "jp": "それじゃ帰るね。",
+        "en": "I'm heading home now.",
+        "audio": "./audio/2.mp3"
+      },
+      {
+        "jp": "おう、またな。",
+        "en": "Okay, catch you later.",
+        "audio": "./audio/3.mp3"
+      }
+    ],
+    "description": "\"See you later.\"よりもカジュアルな表現で、親しい間柄でよく使います。相手が複数の場合は\"Catch you guys later.\""
+  },
+  {
+    "category": 1,
+    "id": 2,
+    "level": 1,
+    "title": {
+      "jp": "お世話になりました",
+      "en": "Thank you for everything.",
+      "audio": "./audio/1.mp3"
+    },
+    "sub": [
+      {
+        "jp": "今日が最後の日だったね？",
+        "en": "Today is your last day right?",
+        "audio": "./audio/2.mp3"
+      },
+      {
+        "jp": "そうです。お世話になりました。",
+        "en": "That's right. Thank you for everything.",
+        "audio": "./audio/3.mp3"
+      }
+    ],
+    "description": "お世話になった方へ、その感謝の気持ちを伝える表現です。"
+  },
+  {
+    "category": 1,
+    "id": 3,
+    "level": 1,
+    "title": {
+      "jp": "いただきます！",
+      "en": "Let's dig in!",
+      "audio": "./audio/1.mp3"
+    },
+    "sub": [
+      {
+        "jp": "注文の品が来たよ！",
+        "en": "Our food's here!",
+        "audio": "./audio/2.mp3"
+      },
+      {
+        "jp": "よし、いただきます！",
+        "en": "All right! Let's dig in!",
+        "audio": "./audio/3.mp3"
+      }
+    ],
+    "description": "「いただきます」と似たような意味です。食事を目の前にして使う表現です。"
+  }
+]

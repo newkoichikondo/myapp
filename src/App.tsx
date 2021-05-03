@@ -42,6 +42,10 @@ import {
 import { grey, blue } from "@material-ui/core/colors";
 import { createMuiTheme } from "@material-ui/core/styles";
 
+import category from "./categories.json";
+import phrases from "./phrases.json";
+import { Phrase } from "./types/phrases";
+
 const drawerWidth = 280;
 
 const themeColor = createMuiTheme({
@@ -169,31 +173,7 @@ function App(props: Props) {
   const { window } = props;
   const classes = useStyles();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const categories = [
-    "あいさつ",
-    "初対面",
-    "食べる時",
-    "カジュアル",
-    "車内",
-    "買い物",
-    "恋愛",
-    "好きと嫌い",
-  ];
-  const phrases = [
-    "またね",
-    "お世話になりました",
-    "いただきます！",
-    "お先に",
-    "いってきます",
-    "久しぶりだね",
-    "遅れてごめんなさい",
-    "じゃあね",
-    "どうぞ入ってください",
-    "お会いできてよかったです",
-    "元気でね",
-    "良い一日を",
-    "仕事頑張って",
-  ];
+  console.log(phrases);
 
   const [value, setValue] = React.useState(0);
 
@@ -265,7 +245,7 @@ function App(props: Props) {
 
       <Divider />
       <List>
-        {categories.map((text, index) => (
+        {category.category_list.map((text, index) => (
           <ListItem button key={text} divider onClick={handleSubDrawerToggle}>
             <ListItemIcon>
               {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
@@ -304,12 +284,17 @@ function App(props: Props) {
         </div>
         <Divider />
         <List>
-          {phrases.map((text, index) => (
-            <ListItem button key={text} divider onClick={handleSubDrawerToggle}>
+          {phrases.map((phrase, index) => (
+            <ListItem
+              button
+              key={phrase.title.jp}
+              divider
+              onClick={handleSubDrawerToggle}
+            >
               <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={phrase.title.jp} />
             </ListItem>
           ))}
         </List>
